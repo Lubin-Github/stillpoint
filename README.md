@@ -4,7 +4,17 @@ Stillpoint 是面向 DeepSeek Harness（DSH）的工作区锁定插件。它会�
 
 ## 安装
 
-已验证 DSH Desktop / Web `0.2.2-rc.5`。从源码打包需要 Node.js 22 或更新版本及 npm。
+已验证 DSH Desktop / Web `0.2.2-rc.5`。
+
+### 通过 DSH「发现」安装
+
+1. 打开 **插件 → 实验性插件**，启用 **自定义插件索引**。
+2. 在 **发现 → 添加索引源** 中粘贴 `https://raw.githubusercontent.com/Lubin-Github/stillpoint/main/plugin-index.json`。
+3. 搜索 **Stillpoint**，确认来源是本仓库后安装。索引将每个版本固定到对应的 Git 提交。
+
+### 从源码打包安装
+
+需要 Node.js 22 或更新版本及 npm。
 
 ```sh
 git clone https://github.com/Lubin-Github/stillpoint.git

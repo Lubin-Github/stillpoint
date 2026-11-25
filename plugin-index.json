@@ -1,0 +1,33 @@
+{
+  "format": 1,
+  "title": "Stillpoint",
+  "plugins": [
+    {
+      "name": "@local/dsh-lock-gate",
+      "title": "Stillpoint",
+      "description": {
+        "en": "Activity-aware workspace locking, graceful task completion and email verification for DeepSeek Harness.",
+        "zh": "面向 DeepSeek Harness 的工作区锁定插件，支持活动感知、后台任务平稳收尾和邮件验证码解锁。"
+      },
+      "icon": "./icon.svg",
+      "author": "Lubin-Github",
+      "repository": {
+        "url": "https://github.com/Lubin-Github/stillpoint"
+      },
+      "versions": [
+        {
+          "version": "1.0.9",
+          "publishTimestamp": 1795600675,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/Lubin-Github/stillpoint.git",
+            "commit": "1c04189b82ba6c5db915cab32f188f9b0a1fa177"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.5 <0.3.0"
+          }
+        }
+      ]
+    }
+  ]
+}
