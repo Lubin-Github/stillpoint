@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Stillpoint",
+    "description": "Activity-aware workspace locking, graceful shutdown of managed plugins, and email verification for DeepSeek Harness."
+  }
+}
