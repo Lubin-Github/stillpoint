@@ -2,6 +2,8 @@
 
 [简体中文](README.md) · English
 
+![Stillpoint — Activity-aware workspace lock and encrypted host-plugin vault for DeepSeek Harness](assets/cover.png)
+
 **Stillpoint** (npm package: `stillpoint`) is an **activity-aware workspace lock and encrypted host-plugin lifecycle manager** for **DeepSeek Harness (DSH)** Desktop and Web. It supports weekly-preset or five-field Cron scheduled locking as well as instant manual locking: when a scheduled lock comes due, Stillpoint waits for the UI to go idle (90 seconds without clicks, typing, or scrolling, or when the window moves to the background), displays the lock screen, and lets DSH-tracked agents and background jobs finish gracefully before unloading managed Host `.cjs` plugins. Managed plugin source code and SMTP credentials are encrypted at rest with **Argon2id + AES-256-GCM**, and unlocking requires both a **master password** and a **six-digit email verification code (Email OTP)**.
 
 ## When to Use Stillpoint (Comparison)

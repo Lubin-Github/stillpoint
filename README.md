@@ -2,6 +2,8 @@
 
 简体中文 · [English](https://github.com/Lubin-Github/stillpoint/blob/main/README.en.md)
 
+![Stillpoint — 面向 DeepSeek Harness 的活动感知工作区锁屏与托管插件加密隔离封面](assets/cover.png)
+
 **Stillpoint**（npm 包名：`stillpoint`）是面向 **DeepSeek Harness（DSH）** Desktop 与 Web 的**活动感知工作区锁屏与托管插件加密卸载插件**。它支持按周预设或五段式 Cron 定时锁屏与手动锁屏：计划时间到达时先等待界面空闲（90 秒无点击、键入或滚动，或窗口切入后台），并在锁屏期间让 DSH 跟踪的活动 Agent 和后台作业平稳跑完，任务全部结束后再自动卸载托管的 Host `.cjs` 插件；插件源码与 SMTP 授权码使用 **Argon2id + AES-256-GCM** 加密存储，解锁需同时通过**主密码 + 六位邮箱动态验证码（Email OTP）**双重校验。
 
 ## 适用场景与方案对比
