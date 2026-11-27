@@ -6,8 +6,8 @@
       "name": "stillpoint",
       "title": "Stillpoint",
       "description": {
-        "en": "Activity-aware workspace locking, graceful task completion and email verification for DeepSeek Harness.",
-        "zh": "面向 DeepSeek Harness 的工作区锁定插件，支持活动感知、后台任务平稳收尾和邮件验证码解锁。"
+        "en": "Activity-aware workspace lock and Argon2id + AES-256-GCM encrypted host-plugin vault for DeepSeek Harness, with graceful agent draining and email OTP unlock.",
+        "zh": "面向 DeepSeek Harness 的活动感知工作区锁屏与 Argon2id + AES-256-GCM 托管插件加密卸载插件，支持后台任务平稳收尾与邮件验证码解锁。"
       },
       "icon": "./icon.svg",
       "author": "Lubin-Github",
