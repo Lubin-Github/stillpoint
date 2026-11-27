@@ -1,3 +1,3 @@
 - insert:
     - id: dsh-lock-gate
-      name: '@local/dsh-lock-gate'
+      name: stillpoint

@@ -8,6 +8,20 @@ Stillpoint 是面向 DeepSeek Harness（DSH）的工作区锁定插件。它会�
 
 已验证 DSH Desktop / Web `0.2.2-rc.5`。
 
+### 通过命令行或 npm 安装
+
+```sh
+dsh plugin --profile web add stillpoint
+```
+
+Desktop 配置可将 `--profile web` 替换为 `--profile desktop`。若新发布的 npm 版本处于 24 小时冷却窗口或尚未同步，也可直接从 GitHub Release 安装预打包包：
+
+```sh
+dsh plugin --profile web add https://github.com/Lubin-Github/stillpoint/releases/download/v1.0.10/stillpoint-1.0.10.tgz
+```
+
+安装应用后刷新界面，打开 **设置 → Stillpoint**，或从首次启动提示进入配置。SMTP 测试通过前，手动锁定与定时锁定均不可用。
+
 ### 通过 DSH「发现」安装
 
 1. 打开 **插件 → 实验性插件**，启用 **自定义插件索引**。
@@ -25,7 +39,7 @@ npm ci --ignore-scripts
 npm pack --ignore-scripts
 ```
 
-通过当前 DSH 配置的插件管理器安装生成的 `local-dsh-lock-gate-1.0.9.tgz`（填写本地绝对路径），应用后刷新界面。打开 **设置 → Stillpoint**，或从首次启动提示进入配置。SMTP 测试通过前，手动锁定与定时锁定均不可用。
+通过当前 DSH 配置的插件管理器安装生成的 `stillpoint-1.0.10.tgz`（填写本地绝对路径），应用后刷新界面。打开 **设置 → Stillpoint**，或从首次启动提示进入配置。SMTP 测试通过前，手动锁定与定时锁定均不可用。
 
 ## 配置 SMTP
 

@@ -73,7 +73,7 @@ test('before SMTP verification, manual lock and scheduled lock cannot block setu
 test('Host boot injects setup, real lock and storage recovery as distinct states', async () => {
   const f = fixture();
   const configured = f.acquire();
-  await act(configured, 'save', { smtp: { ...smtp, password: SMTP_PASSWORD }, schedule });
+  await act(configured, 'save', { smtp: { ...smtp, password: SMTP_PASSWORD }, schedule: DEFAULT_SCHEDULE });
   await act(configured, 'test');
   await configured.stop();
 

@@ -8,6 +8,20 @@ Stillpoint is an activity-aware workspace lock for DeepSeek Harness (DSH). At th
 
 Verified with DSH Desktop and Web `0.2.2-rc.5`.
 
+### Install via CLI or npm
+
+```sh
+dsh plugin --profile web add stillpoint
+```
+
+Replace `--profile web` with `--profile desktop` for the Desktop profile. If a newly published npm release is still within DSH's 24-hour release-age window or pending registry sync, you can also install the prebuilt GitHub Release tarball directly:
+
+```sh
+dsh plugin --profile web add https://github.com/Lubin-Github/stillpoint/releases/download/v1.0.10/stillpoint-1.0.10.tgz
+```
+
+Refresh the interface after applying the installation. Open **Settings → Stillpoint** or follow the setup prompt. Manual and scheduled locking become available after the SMTP test succeeds.
+
 ### Install from Discover
 
 1. Open **Plugins → Experimental Plugins** and enable **Custom Plugin Indexes**.
@@ -30,7 +44,7 @@ npm ci --ignore-scripts
 npm pack --ignore-scripts
 ```
 
-In the DSH plugin manager, install the generated `local-dsh-lock-gate-1.0.9.tgz` using its absolute path. Refresh the interface after applying the installation. Open **Settings → Stillpoint** or follow the setup prompt. Manual and scheduled locking become available after the SMTP test succeeds.
+In the DSH plugin manager, install the generated `stillpoint-1.0.10.tgz` using its absolute path. Refresh the interface after applying the installation. Open **Settings → Stillpoint** or follow the setup prompt. Manual and scheduled locking become available after the SMTP test succeeds.
 
 ## Configure email and unlock
 

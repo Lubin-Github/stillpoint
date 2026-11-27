@@ -1,5 +1,5 @@
 window.__ModuleLoader__.load({
-  id: '@local/dsh-lock-gate',
+  id: 'stillpoint',
   factory(require) {
     const React = require('react');
     const { createElement: h, useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore } = React;

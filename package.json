@@ -1,12 +1,28 @@
 {
-  "name": "@local/dsh-lock-gate",
-  "version": "1.0.9",
+  "name": "stillpoint",
+  "version": "1.0.10",
   "description": "Stillpoint adds activity-aware workspace locking and email verification to DeepSeek Harness.",
-  "private": true,
   "license": "MIT",
+  "author": "Lubin-Github",
+  "homepage": "https://github.com/Lubin-Github/stillpoint#readme",
+  "bugs": {
+    "url": "https://github.com/Lubin-Github/stillpoint/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Lubin-Github/stillpoint.git"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "stillpoint",
+    "workspace-lock",
+    "security",
+    "privacy"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "type": "module",
   "exports": {
@@ -27,7 +43,8 @@
     "cordis.patch.yml",
     "icon.svg",
     "locale/*.json",
-    "README.md"
+    "README.md",
+    "README.en.md"
   ],
   "scripts": {
     "test": "node --test"
