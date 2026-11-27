@@ -138,16 +138,27 @@ window.__ModuleLoader__.load({
       invalidEncoding: 'The plugin file must contain valid UTF-8 text.',
       imported: 'Plugin imported.', remove: 'Remove', removeNamed: 'Remove {name}',
       confirmRemove: 'Remove {name} from managed plugins?', removed: 'Plugin removed.',
-      lockedTitle: 'Workspace locked', lockedDescription: 'Enter your master password to request an email code, then enter both to unlock.',
+      lockedTitle: 'Workspace locked', lockedDescription: 'Enter your master password to request an email code, or enter a valid 6-digit code sent within the last 10 minutes to unlock.',
+      lockedWindow: 'shell.overlay · Stillpoint Lock Gate',
+      lockBadgeLocked: 'LOCKED', lockBadgeDraining: 'DRAINING', lockBadgeAlert: 'ATTENTION',
+      lockedDrainingTitle: 'Draining background work', lockedDrainingBadge: 'ACTIVE',
       lockedDraining: 'Background tasks are still running. Managed plugins will stop when those tasks finish if the workspace is still locked.',
+      masterPlaceholder: 'Enter master password',
+      lockedVaultSpec: 'ARGON2ID (64 MiB, 3 ITER) · AES-256-GCM',
+      codeSpec: '6-DIGIT SINGLE-USE CODE',
+      codeDigit: 'Verification digit {index} of {total}',
+      unlockLocked: 'Unlock',
+      sendingCode: 'Sending…', unlockingVault: 'Unlocking…',
+      lockedFooter: 'Stillpoint · Encrypted Host Vault · Zero-Secret Audit',
       checking: 'Checking the workspace lock…', lockError: 'The workspace remains locked. Check the lock service again to continue.',
-      code: 'Six-digit email code', send: 'Send code', unlock: 'Unlock', codeSent: 'Code sent. Check your inbox.',
+      code: 'Email OTP verification', send: 'Send code', unlock: 'Unlock', codeSent: 'Code sent. Check your inbox.',
       requestFailed: 'The request did not complete. Check the connection and try again.',
       saveFailed: 'Could not save the settings. Check the email fields, schedule, and master password.',
       testFailed: 'Could not send the test email. Check the saved SMTP settings and enter the current master password if needed.',
       lockFailed: 'Could not lock the workspace. Check that email has been verified.',
       sendFailed: 'Could not send a code. Check the master password and try again.',
-      unlockFailed: 'Could not unlock. Check the master password and use the latest email code.',
+      unlockFailed: 'Could not unlock. Check the master password and enter a valid 6-digit email code.',
+      rateLimited: 'Too many requests or failed attempts.',
       importFailed: 'Could not import this plugin. Check the file and master password.',
       removeFailed: 'Could not remove this plugin. Check the master password.',
       retryAt: 'Try again after {time}.', working: 'Working…',
@@ -212,16 +223,27 @@ window.__ModuleLoader__.load({
       file: '插件文件', import: '导入插件', invalidFile: '请选择一个非空且不超过 128 KiB 的 .cjs 文件。',
       invalidEncoding: '插件文件必须使用 UTF-8 编码。',
       imported: '插件已导入。', remove: '移除', removeNamed: '移除 {name}', confirmRemove: '移除托管插件 {name}？', removed: '插件已移除。',
-      lockedTitle: '工作区已锁定', lockedDescription: '输入主密码以发送邮箱验证码，再输入主密码和验证码解锁。',
+      lockedTitle: '工作区已锁定', lockedDescription: '输入主密码发送邮箱验证码，或填入 10 分钟内已收到的 6 位验证码解锁工作区。',
+      lockedWindow: 'shell.overlay · Stillpoint Lock Gate',
+      lockBadgeLocked: '已锁定', lockBadgeDraining: '任务收尾中', lockBadgeAlert: '需处理',
+      lockedDrainingTitle: '后台任务平稳收尾中', lockedDrainingBadge: '运行中',
       lockedDraining: '后台任务仍在运行。如果工作区在任务结束时仍处于锁定状态，托管插件将自动停止。',
+      masterPlaceholder: '输入主密码',
+      lockedVaultSpec: 'ARGON2ID (64 MiB, 3 ITER) · AES-256-GCM',
+      codeSpec: '6 位单次有效验证码',
+      codeDigit: '第 {index} 位验证码（共 {total} 位）',
+      unlockLocked: '验证解锁',
+      sendingCode: '正在发信…', unlockingVault: '正在解锁…',
+      lockedFooter: 'Stillpoint · 托管插件内存隔离 · 零敏感日志',
       checking: '正在检查工作区锁定状态…', lockError: '工作区仍处于锁定状态。请重新检查锁定服务。',
-      code: '六位邮箱验证码', send: '发送验证码', unlock: '解锁', codeSent: '验证码已发送，请检查收件箱。',
+      code: '邮箱验证码校验', send: '发送验证码', unlock: '解锁', codeSent: '验证码已发送，请检查收件箱。',
       requestFailed: '请求未完成，请检查连接后重试。',
       saveFailed: '无法保存设置，请检查邮箱字段、定时设置和主密码。',
       testFailed: '无法发送测试邮件，请检查已保存的 SMTP 设置，必要时输入当前主密码。',
       lockFailed: '无法锁定工作区，请确认邮箱已验证。',
       sendFailed: '无法发送验证码，请检查主密码后重试。',
-      unlockFailed: '无法解锁，请检查主密码并使用最新的邮件验证码。',
+      unlockFailed: '无法解锁，请检查主密码并输入有效的 6 位邮件验证码。',
+      rateLimited: '请求过于频繁或尝试次数过多。',
       importFailed: '无法导入插件，请检查文件和主密码。',
       removeFailed: '无法移除插件，请检查主密码。',
       retryAt: '请在 {time} 后重试。', working: '正在处理…',
@@ -299,6 +321,118 @@ window.__ModuleLoader__.load({
         margin: auto; padding: 24px; overflow: auto; overscroll-behavior: contain; border-radius: 18px;
         border: 1px solid var(--dsw-alias-border-l2); background: var(--dsw-alias-bg-layer-1); pointer-events: auto; }
       .dsh-lock-dialog::backdrop { background: var(--dsw-alias-bg-base); pointer-events: auto; }
+      .dsh-lock-gate-dialog { color-scheme: dark; width: min(484px, calc(100% - 28px)); max-height: calc(100dvh - 28px);
+        padding: 0; border-radius: 20px; color: #f0f9ff;
+        border: 1px solid rgba(56, 189, 248, 0.28);
+        background: linear-gradient(180deg, #0d2236 0%, #091827 100%);
+        box-shadow: inset 0 1px 0 rgba(186, 230, 253, 0.14), 0 28px 80px rgba(2, 8, 18, 0.78), 0 0 48px rgba(14, 116, 144, 0.2); }
+      .dsh-lock-gate-dialog::backdrop { pointer-events: auto;
+        background-color: #071522;
+        background-image:
+          radial-gradient(circle at 50% 48%, rgba(14, 116, 144, 0.3) 0%, rgba(7, 21, 34, 0) 62%),
+          radial-gradient(circle at 50% 48%, transparent 159px, rgba(125, 211, 252, 0.065) 160px, transparent 161px),
+          radial-gradient(circle at 50% 48%, transparent 259px, rgba(125, 211, 252, 0.05) 260px, transparent 261px),
+          radial-gradient(circle at 50% 48%, transparent 369px, rgba(125, 211, 252, 0.04) 370px, transparent 371px),
+          radial-gradient(circle at 50% 48%, transparent 489px, rgba(125, 211, 252, 0.03) 490px, transparent 491px),
+          linear-gradient(rgba(148, 163, 184, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(148, 163, 184, 0.03) 1px, transparent 1px);
+        background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 44px 44px, 44px 44px;
+        background-position: center; }
+      .dsh-lock-gate-dialog :is(input, button):focus-visible { outline: 2px solid #38bdf8; outline-offset: 2px; }
+      .dsh-lock-chrome { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+        padding: 11px 18px; border-block-end: 1px solid rgba(56, 189, 248, 0.15); background: rgba(6, 17, 29, 0.62); }
+      .dsh-lock-chrome-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+      .dsh-lock-dots { display: inline-flex; align-items: center; gap: 6px; flex: none; }
+      .dsh-lock-dots span { width: 8px; height: 8px; border-radius: 50%; background: #38bdf8; }
+      .dsh-lock-dots span:nth-child(2) { background: #0e7490; }
+      .dsh-lock-dots span:nth-child(3) { background: #334e68; }
+      .dsh-lock-chrome-title { color: #8fb0ca; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .dsh-lock-pill { flex: none; padding: 3px 9px; border-radius: 7px; font-size: 11px; font-weight: 650; letter-spacing: 0.04em;
+        color: #bae6fd; background: rgba(22, 78, 99, 0.52); border: 1px solid rgba(125, 211, 252, 0.3);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .dsh-lock-pill[data-tone=draining] { color: #e0f2fe; background: rgba(14, 116, 144, 0.68); border-color: rgba(56, 189, 248, 0.55); }
+      .dsh-lock-pill[data-tone=alert] { color: #fecdd3; background: rgba(159, 18, 57, 0.42); border-color: rgba(251, 113, 133, 0.48); }
+      .dsh-lock-gate-body { display: grid; gap: 18px; padding: 22px 22px 20px; }
+      .dsh-lock-hero { display: flex; align-items: center; gap: 14px; }
+      .dsh-lock-emblem { flex: none; width: 48px; height: 48px; border-radius: 13px; display: grid; place-items: center;
+        background: #164e63; border: 1px solid rgba(186, 230, 253, 0.35);
+        box-shadow: 0 8px 24px rgba(8, 47, 73, 0.6), inset 0 1px 0 rgba(224, 242, 254, 0.22); }
+      .dsh-lock-emblem svg { width: 32px; height: 32px; display: block; }
+      .dsh-lock-hero-copy { display: grid; gap: 3px; min-width: 0; }
+      .dsh-lock-gate-dialog h2 { color: #f8fafc; font-size: 20px; line-height: 1.28; letter-spacing: -0.01em; }
+      .dsh-lock-subtitle { color: #89abc6; font-size: 13px; line-height: 1.45; }
+      .dsh-lock-drain-card { display: grid; gap: 9px; padding: 13px 14px; border-radius: 12px;
+        background: rgba(14, 116, 144, 0.16); border: 1px solid rgba(56, 189, 248, 0.38); }
+      .dsh-lock-drain-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+      .dsh-lock-drain-title { display: flex; align-items: center; gap: 9px; font-size: 13.5px; font-weight: 650; color: #f0f9ff; }
+      .dsh-lock-drain-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: #38bdf8;
+        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.22); animation: dsh-lock-pulse 2.2s ease-in-out infinite; }
+      .dsh-lock-drain-copy { color: #9ec0da; font-size: 12.5px; line-height: 1.45; }
+      .dsh-lock-drain-bar { height: 5px; border-radius: 999px; overflow: hidden; background: rgba(6, 19, 32, 0.78); }
+      .dsh-lock-drain-bar > span { display: block; width: 62%; height: 100%; border-radius: inherit;
+        background: linear-gradient(90deg, #0ea5e9 0%, #38bdf8 60%, #7dd3fc 100%);
+        animation: dsh-lock-progress 2.6s ease-in-out infinite alternate; }
+      .dsh-lock-group { display: grid; gap: 8px; }
+      .dsh-lock-label-row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 10px; }
+      .dsh-lock-label-main { font-size: 12px; font-weight: 650; letter-spacing: 0.05em; text-transform: uppercase; color: #9ec0da; }
+      .dsh-lock-label-spec { font-size: 11px; letter-spacing: 0.04em; color: #7599b8;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .dsh-lock-pass-shell { display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 5px 6px 5px 14px;
+        border-radius: 11px; background: #061320; border: 1px solid rgba(125, 162, 190, 0.28);
+        transition: border-color 140ms ease, box-shadow 140ms ease; }
+      .dsh-lock-pass-shell:has(.dsh-lock-gate-input:focus) { border-color: #38bdf8;
+        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18); }
+      .dsh-lock-gate-dialog input.dsh-lock-gate-input { flex: 1 1 auto; width: auto; height: 36px; padding: 0; border: 0;
+        border-radius: 0; background: transparent; color: #f0f9ff; font-size: 15px; outline: none; }
+      .dsh-lock-gate-dialog input.dsh-lock-gate-input::placeholder { color: #6082a0; }
+      .dsh-lock-gate-dialog input.dsh-lock-gate-input:focus-visible { outline: none; }
+      .dsh-lock-pass-send { flex: none; min-height: 34px; padding: 0 12px; border-radius: 8px; cursor: pointer; font: inherit;
+        font-size: 12.5px; font-weight: 600; color: #bae6fd; background: rgba(22, 78, 99, 0.56);
+        border: 1px solid rgba(56, 189, 248, 0.34); transition: background 140ms ease, border-color 140ms ease; }
+      .dsh-lock-pass-send:hover:not(:disabled) { background: rgba(14, 116, 144, 0.72); border-color: rgba(125, 211, 252, 0.56); }
+      .dsh-lock-otp-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+      .dsh-lock-otp-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+      .dsh-lock-gate-dialog input.dsh-lock-otp-cell { width: 100%; height: 48px; padding: 0; text-align: center;
+        border-radius: 10px; background: #061320; border: 1px solid rgba(125, 162, 190, 0.28);
+        color: #f8fafc; font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums;
+        transition: border-color 140ms ease, box-shadow 140ms ease, background 140ms ease; }
+      .dsh-lock-gate-dialog input.dsh-lock-otp-cell[data-filled] { border-color: rgba(125, 211, 252, 0.42); background: #081a2b; }
+      .dsh-lock-gate-dialog input.dsh-lock-otp-cell:focus { outline: none; border-color: #38bdf8;
+        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2); background: #091e32; }
+      .dsh-lock-gate-btn { min-height: 48px; padding: 0 22px; border-radius: 10px; cursor: pointer; font: inherit;
+        font-size: 14.5px; font-weight: 650; white-space: nowrap; color: #f0f9ff;
+        background: linear-gradient(180deg, #1b7d98 0%, #135d75 100%);
+        border: 1px solid rgba(125, 211, 252, 0.44);
+        box-shadow: inset 0 1px 0 rgba(224, 242, 254, 0.22), 0 6px 18px rgba(8, 47, 73, 0.48);
+        transition: filter 140ms ease, border-color 140ms ease; }
+      .dsh-lock-gate-btn:hover:not(:disabled) { filter: brightness(1.08); border-color: rgba(186, 230, 253, 0.65); }
+      .dsh-lock-gate-btn-secondary { min-height: 40px; padding: 0 16px; font-size: 13.5px;
+        background: rgba(22, 78, 99, 0.48); border-color: rgba(56, 189, 248, 0.34); box-shadow: none; }
+      .dsh-lock-gate-dialog :is(.dsh-lock-pass-send, .dsh-lock-gate-btn, input):disabled { opacity: 0.5; cursor: default; }
+      .dsh-lock-gate-note { padding: 10px 12px; border-radius: 10px; font-size: 13px; line-height: 1.45;
+        color: #bae6fd; background: rgba(14, 116, 144, 0.2); border: 1px solid rgba(56, 189, 248, 0.34); }
+      .dsh-lock-gate-note[data-tone=alert] { color: #fecdd3; background: rgba(159, 18, 57, 0.24);
+        border-color: rgba(251, 113, 133, 0.44); }
+      .dsh-lock-gate-dialog .dsh-lock-status p:not(:empty) { padding: 10px 12px; border-radius: 10px; font-size: 13px;
+        line-height: 1.45; color: #e0f2fe; background: rgba(14, 116, 144, 0.22); border: 1px solid rgba(56, 189, 248, 0.36); }
+      .dsh-lock-gate-dialog .dsh-lock-status p.dsh-lock-error:not(:empty) { color: #fecdd3;
+        background: rgba(159, 18, 57, 0.24); border-color: rgba(251, 113, 133, 0.44); }
+      .dsh-lock-gate-footer { padding: 11px 22px 13px; border-block-start: 1px solid rgba(56, 189, 248, 0.12);
+        background: rgba(6, 17, 29, 0.45); color: #6e93b0; font-size: 11.5px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      @keyframes dsh-lock-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+      @keyframes dsh-lock-progress { 0% { transform: translateX(-18%); } 100% { transform: translateX(68%); } }
+      @media (prefers-reduced-motion: reduce) {
+        .dsh-lock-drain-dot, .dsh-lock-drain-bar > span { animation: none; }
+      }
+      @media (max-width: 460px) {
+        .dsh-lock-gate-body { padding: 18px 16px 16px; }
+        .dsh-lock-chrome, .dsh-lock-gate-footer { padding-inline: 16px; }
+        .dsh-lock-otp-row { grid-template-columns: 1fr; }
+        .dsh-lock-gate-btn { width: 100%; }
+      }
+      @media (pointer: coarse) { .dsh-lock-gate-dialog input.dsh-lock-gate-input { font-size: 16px; } }
       .dsh-lock-setup-dialog { width: min(680px, calc(100% - 32px)); padding: 0; overflow: hidden;
         max-height: min(760px, calc(100dvh - 48px)); box-shadow: 0 20px 68px var(--dsw-alias-bg-mask-2); }
       .dsh-lock-setup-dialog[open] { display: grid; grid-template-rows: auto minmax(0, 1fr); }
@@ -580,7 +714,7 @@ window.__ModuleLoader__.load({
         show: (key, error = false) => setFeedback({ key, error }),
         result(res, key, success) {
           if (res?.ok) setFeedback(success ? { key: success } : null);
-          else if (res) setFeedback({ key: res.error ? `${key}Failed` : 'requestFailed', error: true,
+          else if (res) setFeedback({ key: res.retryAt ? 'rateLimited' : res.error ? `${key}Failed` : 'requestFailed', error: true,
             hostMessage: res.error, action: key, retryAt: res.retryAt });
           return res?.ok === true;
         },
@@ -977,14 +1111,94 @@ window.__ModuleLoader__.load({
       h('div', { className: 'dsh-lock-setup-body' }, h(SettingsPage, { t, locale, service, compact: true })));
     }
 
+    const OTP_LENGTH = 6;
+    const EMPTY_OTP = Object.freeze(['', '', '', '', '', '']);
+
+    function applyOtpPaste(digits, index, text) {
+      const clean = String(text ?? '').replace(/\D/g, '');
+      if (!clean) return { digits, focusIndex: index };
+      const start = clean.length >= OTP_LENGTH ? 0 : index;
+      const next = [...digits];
+      let pos = start;
+      for (const ch of clean.slice(0, OTP_LENGTH - start)) next[pos++] = ch;
+      return { digits: next, focusIndex: Math.min(pos, OTP_LENGTH - 1) };
+    }
+
+    function applyOtpChange(digits, index, rawValue) {
+      const clean = String(rawValue ?? '').replace(/\D/g, '');
+      if (!clean) {
+        const next = [...digits];
+        next[index] = '';
+        return { digits: next, focusIndex: index };
+      }
+      if (clean.length === 1) {
+        const next = [...digits];
+        next[index] = clean;
+        return { digits: next, focusIndex: Math.min(index + 1, OTP_LENGTH - 1) };
+      }
+      const current = digits[index];
+      if (clean.length === 2 && current && (clean[0] === current || clean[1] === current)) {
+        const next = [...digits];
+        next[index] = clean[0] === current ? clean[1] : clean[0];
+        return { digits: next, focusIndex: Math.min(index + 1, OTP_LENGTH - 1) };
+      }
+      return applyOtpPaste(digits, index, clean);
+    }
+
+    function applyOtpKey(digits, index, key) {
+      if (key === 'Backspace') {
+        const next = [...digits];
+        if (next[index]) {
+          next[index] = '';
+          return { digits: next, focusIndex: index, handled: true };
+        }
+        if (index > 0) {
+          next[index - 1] = '';
+          return { digits: next, focusIndex: index - 1, handled: true };
+        }
+        return { digits, focusIndex: index, handled: true };
+      }
+      if (key === 'Delete') {
+        const next = [...digits];
+        next[index] = '';
+        return { digits: next, focusIndex: index, handled: true };
+      }
+      if (key === 'ArrowLeft') return { digits, focusIndex: Math.max(0, index - 1), handled: true };
+      if (key === 'ArrowRight') return { digits, focusIndex: Math.min(OTP_LENGTH - 1, index + 1), handled: true };
+      if (key === 'Home') return { digits, focusIndex: 0, handled: true };
+      if (key === 'End') return { digits, focusIndex: OTP_LENGTH - 1, handled: true };
+      return { digits, focusIndex: index, handled: false };
+    }
+
+    function StillpointEmblem() {
+      return h('div', { className: 'dsh-lock-emblem', 'aria-hidden': 'true' },
+        h('svg', { viewBox: '0 0 36 36', focusable: 'false', 'aria-hidden': 'true' },
+          h('path', { d: 'M12.5 16v-3a5.5 5.5 0 0 1 11 0v3', fill: 'none', stroke: '#bae6fd', strokeWidth: '2.5', strokeLinecap: 'round' }),
+          h('rect', { x: '9.5', y: '15', width: '17', height: '13.5', rx: '3', fill: '#e0f2fe' }),
+          h('path', { d: 'M18 20v3.8', fill: 'none', stroke: '#164e63', strokeWidth: '2.5', strokeLinecap: 'round' })));
+    }
+
+    function LockGateChrome({ t, badgeKey, tone }) {
+      return h('header', { className: 'dsh-lock-chrome' },
+        h('div', { className: 'dsh-lock-chrome-left' },
+          h('span', { className: 'dsh-lock-dots', 'aria-hidden': 'true' }, h('span'), h('span'), h('span')),
+          h('span', { className: 'dsh-lock-chrome-title' }, t('lockedWindow'))),
+        h('span', { className: 'dsh-lock-pill', 'data-tone': tone || undefined }, t(badgeKey)));
+    }
+
     function LockDialog({ t, locale, service, snapshot }) {
       const dialogRef = useRef(null);
-      const formRef = useRef(null);
+      const passwordRef = useRef(null);
+      const otpRefs = useRef([]);
       const headingId = useId();
       const descriptionId = useId();
+      const passwordId = useId();
+      const otpLabelId = useId();
+      const [digits, setDigits] = useState(EMPTY_OTP);
       const feedback = useFeedback(t, locale);
       const active = useRef(true);
       const focusCode = useRef(false);
+      const focusPassword = useRef(false);
       const busy = snapshot.pending !== null;
 
       useLayoutEffect(() => {
@@ -997,92 +1211,250 @@ window.__ModuleLoader__.load({
         };
       }, []);
       useLayoutEffect(() => {
-        formRef.current?.elements.masterPassword.focus();
+        passwordRef.current?.focus();
       }, []);
       useLayoutEffect(() => {
-        if (focusCode.current && !busy) {
+        if (busy) return;
+        if (focusCode.current) {
           focusCode.current = false;
-          formRef.current?.elements.code.focus();
+          otpRefs.current[0]?.focus();
+        } else if (focusPassword.current) {
+          focusPassword.current = false;
+          passwordRef.current?.focus();
         }
       });
       useEffect(() => {
         active.current = true;
-        return () => { active.current = false; };
+        return () => {
+          active.current = false;
+          if (passwordRef.current) passwordRef.current.value = '';
+          for (const el of otpRefs.current) if (el) el.value = '';
+        };
       }, []);
+
+      function focusSlot(index) {
+        const cell = otpRefs.current[index];
+        cell?.focus();
+        cell?.select?.();
+      }
+
+      function onDigitChange(index, event) {
+        const next = applyOtpChange(digits, index, event.target.value);
+        setDigits(next.digits);
+        if (next.focusIndex !== index || event.target.value.length > 1) focusSlot(next.focusIndex);
+      }
+
+      function onDigitPaste(index, event) {
+        event.preventDefault();
+        const next = applyOtpPaste(digits, index, event.clipboardData?.getData('text') ?? '');
+        setDigits(next.digits);
+        focusSlot(next.focusIndex);
+      }
+
+      function onDigitKeyDown(index, event) {
+        const next = applyOtpKey(digits, index, event.key);
+        if (!next.handled) return;
+        event.preventDefault();
+        if (next.digits !== digits) setDigits(next.digits);
+        if (next.focusIndex !== index) focusSlot(next.focusIndex);
+      }
+
+      function onPasswordKeyDown(event) {
+        if (event.key !== 'Enter') return;
+        if (digits.every(digit => digit === '')) {
+          event.preventDefault();
+          if (!feedback.coolingDown('send')) void send();
+        }
+      }
 
       async function send() {
         if (busy) return;
-        const input = formRef.current?.elements.masterPassword;
+        const input = passwordRef.current;
         if (!input?.reportValidity()) return;
-        const form = formRef.current;
         const masterPassword = input.value;
         feedback.clear();
         const result = await service.post('send', { masterPassword });
         if (!active.current) return;
         if (result?.ok) {
-          form.elements.code.value = '';
+          setDigits(EMPTY_OTP);
           focusCode.current = true;
-        } else input.value = '';
+        } else {
+          input.value = '';
+          focusPassword.current = true;
+        }
         feedback.result(result, 'send', 'codeSent');
       }
 
       async function unlock(event) {
         event.preventDefault();
         if (busy) return;
-        const inputs = event.currentTarget.elements;
-        const masterPassword = inputs.masterPassword.value;
-        const code = inputs.code.value;
-        inputs.masterPassword.value = '';
-        inputs.code.value = '';
+        const input = passwordRef.current;
+        if (!input?.reportValidity()) return;
+        const emptySlot = digits.findIndex(digit => !/^\d$/.test(digit));
+        if (emptySlot !== -1) {
+          otpRefs.current[emptySlot]?.focus();
+          otpRefs.current[emptySlot]?.reportValidity?.();
+          return;
+        }
+        const masterPassword = input.value;
+        const code = digits.join('');
+        input.value = '';
+        setDigits(EMPTY_OTP);
         feedback.clear();
         const result = await service.post('unlock', { code, masterPassword });
-        if (active.current) feedback.result(result, 'unlock');
+        if (!active.current) return;
+        if (!result?.ok) {
+          if (result?.retryAt && passwordRef.current) passwordRef.current.value = '';
+          focusPassword.current = true;
+        }
+        feedback.result(result, 'unlock');
       }
 
-      return h('dialog', { className: 'dsh-lock-dialog', ref: dialogRef, 'aria-modal': true,
+      return h('dialog', { className: 'dsh-lock-dialog dsh-lock-gate-dialog', ref: dialogRef, 'aria-modal': true,
         'aria-labelledby': headingId, 'aria-describedby': descriptionId,
         onCancel: event => event.preventDefault(),
         onKeyDown: event => event.stopPropagation(),
         onKeyUp: event => event.stopPropagation(),
       },
       h('style', null, styles),
-      h('div', { className: 'dsh-lock-stack' },
-        h('h2', { id: headingId }, t('lockedTitle')),
-        h('p', { id: descriptionId, className: 'dsh-lock-hint' }, t('lockedDescription')),
-        h('p', { className: 'dsh-lock-hint', role: 'status', hidden: !snapshot.draining },
-          snapshot.draining && t('lockedDraining')),
-        h('form', { className: 'dsh-lock-stack', ref: formRef, onSubmit: unlock, autoComplete: 'off', 'aria-busy': busy || undefined },
+      h(LockGateChrome, {
+        t,
+        badgeKey: snapshot.draining ? 'lockBadgeDraining' : 'lockBadgeLocked',
+        tone: snapshot.draining ? 'draining' : undefined,
+      }),
+      h('div', { className: 'dsh-lock-gate-body' },
+        h('div', { className: 'dsh-lock-hero' },
+          h(StillpointEmblem),
+          h('div', { className: 'dsh-lock-hero-copy' },
+            h('h2', { id: headingId }, t('lockedTitle')),
+            h('p', { id: descriptionId, className: 'dsh-lock-subtitle' }, t('lockedDescription')))),
+        snapshot.draining && h('div', { className: 'dsh-lock-drain-card', role: 'status' },
+          h('div', { className: 'dsh-lock-drain-head' },
+            h('span', { className: 'dsh-lock-drain-title' },
+              h('span', { className: 'dsh-lock-drain-dot', 'aria-hidden': 'true' }),
+              t('lockedDrainingTitle')),
+            h('span', { className: 'dsh-lock-pill', 'data-tone': 'draining' }, t('lockedDrainingBadge'))),
+          h('p', { className: 'dsh-lock-drain-copy' }, t('lockedDraining')),
+          h('div', { className: 'dsh-lock-drain-bar', 'aria-hidden': 'true' }, h('span'))),
+        h('form', { className: 'dsh-lock-stack', onSubmit: unlock, noValidate: true, autoComplete: 'off', 'aria-busy': busy || undefined },
           h('fieldset', { disabled: busy }, h('div', { className: 'dsh-lock-stack' },
-            field(t('master'), passwordProps('masterPassword', { required: true })),
-            h('div', { className: 'dsh-lock-actions' }, button(t('send'), { disabled: feedback.coolingDown('send'), onClick: send })),
-            field(t('code'), { name: 'code', required: true, inputMode: 'numeric', pattern: '[0-9]{6}', maxLength: 6, autoComplete: 'one-time-code' }),
-            h('div', { className: 'dsh-lock-actions' }, button(t('unlock'), { type: 'submit', primary: true, disabled: feedback.coolingDown('unlock') }))))),
-        h('div', { className: 'dsh-lock-stack' },
-          snapshot.status === 'loading' && h('p', { role: 'status', className: 'dsh-lock-hint' }, t('lockConnecting')),
-          snapshot.status === 'unavailable' && h(React.Fragment, null,
-            h('p', { role: 'alert', className: 'dsh-lock-hint' }, t('lockDisconnected')),
-            h('div', { className: 'dsh-lock-actions' }, button(t('retry'), { onClick: service.refresh, disabled: busy })))),
-        busy && h('p', { role: 'status' }, t('working')),
+            h('div', { className: 'dsh-lock-group' },
+              h('div', { className: 'dsh-lock-label-row' },
+                h('label', { className: 'dsh-lock-label-main', htmlFor: passwordId }, t('master')),
+                h('span', { className: 'dsh-lock-label-spec', 'aria-hidden': 'true' }, t('lockedVaultSpec'))),
+              h('div', { className: 'dsh-lock-pass-shell', onClick: event => {
+                if (event.target === event.currentTarget) passwordRef.current?.focus();
+              } },
+                h('input', passwordProps('masterPassword', {
+                  id: passwordId,
+                  ref: passwordRef,
+                  className: 'dsh-lock-gate-input',
+                  placeholder: t('masterPlaceholder'),
+                  required: true,
+                  autoCorrect: 'off',
+                  autoCapitalize: 'off',
+                  'data-1p-ignore': 'true',
+                  'data-lpignore': 'true',
+                  'data-bwignore': 'true',
+                  'data-form-type': 'other',
+                  onKeyDown: onPasswordKeyDown,
+                })),
+                h('button', {
+                  type: 'button',
+                  className: 'dsh-lock-pass-send',
+                  disabled: feedback.coolingDown('send'),
+                  onClick: send,
+                }, snapshot.pending === 'send' ? t('sendingCode') : t('send')))),
+            h('div', { className: 'dsh-lock-group' },
+              h('div', { className: 'dsh-lock-label-row' },
+                h('span', { id: otpLabelId, className: 'dsh-lock-label-main' }, t('code')),
+                h('span', { className: 'dsh-lock-label-spec', 'aria-hidden': 'true' }, t('codeSpec'))),
+              h('div', { className: 'dsh-lock-otp-row' },
+                h('div', { className: 'dsh-lock-otp-grid', role: 'group', 'aria-labelledby': otpLabelId },
+                  digits.map((digit, index) => h('input', {
+                    key: index,
+                    ref: node => { otpRefs.current[index] = node; },
+                    type: 'text',
+                    className: 'dsh-lock-otp-cell',
+                    value: digit,
+                    'data-filled': digit ? '' : undefined,
+                    required: true,
+                    inputMode: 'numeric',
+                    pattern: '[0-9]',
+                    maxLength: OTP_LENGTH,
+                    spellCheck: false,
+                    autoComplete: index === 0 ? 'one-time-code' : 'off',
+                    'data-1p-ignore': 'true',
+                    'data-lpignore': 'true',
+                    'data-bwignore': 'true',
+                    'data-form-type': 'other',
+                    'aria-label': t('codeDigit', { index: index + 1, total: OTP_LENGTH }),
+                    onChange: event => onDigitChange(index, event),
+                    onPaste: event => onDigitPaste(index, event),
+                    onKeyDown: event => onDigitKeyDown(index, event),
+                    onFocus: event => event.target.select?.(),
+                  }))),
+                h('button', {
+                  type: 'submit',
+                  className: 'dsh-lock-gate-btn',
+                  disabled: feedback.coolingDown('unlock'),
+                }, snapshot.pending === 'unlock' ? t('unlockingVault') : t('unlockLocked'))))))),
+        snapshot.status === 'loading' && h('p', { role: 'status', className: 'dsh-lock-gate-note' }, t('lockConnecting')),
+        snapshot.status === 'unavailable' && h('div', { className: 'dsh-lock-stack' },
+          h('p', { role: 'alert', className: 'dsh-lock-gate-note', 'data-tone': 'alert' }, t('lockDisconnected')),
+          h('div', { className: 'dsh-lock-actions' },
+            h('button', { type: 'button', className: 'dsh-lock-gate-btn dsh-lock-gate-btn-secondary', onClick: service.refresh, disabled: busy }, t('retry')))),
+        busy && h('p', { role: 'status', className: 'dsh-lock-gate-note' }, t('working')),
         feedback.node,
-      ));
+      ),
+      h('footer', { className: 'dsh-lock-gate-footer' }, t('lockedFooter')));
     }
 
-    function CleanupDialog({ t, service, issue }) {
+    function CleanupDialog({ t, service, issue, snapshot }) {
       const ref = useRef(null);
+      const retryRef = useRef(null);
       const title = useId();
+      const descriptionId = useId();
+      const [checking, setChecking] = useState(false);
+      const busy = checking || snapshot?.status === 'loading';
       useLayoutEffect(() => {
         const dialog = ref.current;
+        const previous = document.activeElement;
         dialog.showModal();
-        return () => dialog.close();
+        retryRef.current?.focus();
+        return () => {
+          dialog.close();
+          if (previous?.isConnected && previous instanceof HTMLElement) previous.focus({ preventScroll: true });
+        };
       }, []);
-      return h('dialog', { className: 'dsh-lock-dialog', ref, 'aria-labelledby': title,
+      async function retry() {
+        if (busy) return;
+        setChecking(true);
+        try {
+          await service.refresh();
+        } finally {
+          setChecking(false);
+        }
+      }
+      return h('dialog', { className: 'dsh-lock-dialog dsh-lock-gate-dialog', ref, 'aria-modal': true,
+        'aria-labelledby': title, 'aria-describedby': descriptionId,
         onCancel: event => event.preventDefault(),
         onKeyDown: event => event.stopPropagation(), onKeyUp: event => event.stopPropagation(),
-      }, h('style', null, styles), h('div', { className: 'dsh-lock-stack' },
-        h('h2', { id: title }, t(issue === 'cleanup' ? 'cleanupTitle' : 'lockedTitle')),
-        h('p', { role: 'alert' }, t(issue === 'cleanup' ? 'cleanupRecovery' : 'lockError')),
-        h('div', { className: 'dsh-lock-actions' }, button(t('retry'), { onClick: service.refresh })),
-      ));
+      },
+      h('style', null, styles),
+      h(LockGateChrome, { t, badgeKey: 'lockBadgeAlert', tone: 'alert' }),
+      h('div', { className: 'dsh-lock-gate-body' },
+        h('div', { className: 'dsh-lock-hero' },
+          h(StillpointEmblem),
+          h('div', { className: 'dsh-lock-hero-copy' },
+            h('h2', { id: title }, t(issue === 'cleanup' ? 'cleanupTitle' : 'lockedTitle')))),
+        h('p', { id: descriptionId, role: 'alert', className: 'dsh-lock-gate-note', 'data-tone': 'alert' },
+          t(issue === 'cleanup' ? 'cleanupRecovery' : 'lockError')),
+        busy && h('p', { role: 'status', className: 'dsh-lock-gate-note' }, t('checking')),
+        h('div', { className: 'dsh-lock-actions' },
+          h('button', { ref: retryRef, type: 'button', className: 'dsh-lock-gate-btn dsh-lock-gate-btn-secondary',
+            disabled: busy, onClick: retry }, t('retry')))),
+      h('footer', { className: 'dsh-lock-gate-footer' }, t('lockedFooter')));
     }
 
     function Overlay({ t, locale, service }) {
@@ -1095,7 +1467,7 @@ window.__ModuleLoader__.load({
       }, [mode]);
       if (mode === 'locked') return h(LockDialog, { t, locale, service, snapshot });
       if (mode === 'error') {
-        if (issue !== 'storage') return h(CleanupDialog, { t, service, issue });
+        if (issue !== 'storage') return h(CleanupDialog, { t, service, issue, snapshot });
         return h('aside', { className: 'dsh-lock-card dsh-lock-notice' }, h('style', null, styles),
           h(RecoveryNotice, { t, service, issue, title: true }));
       }

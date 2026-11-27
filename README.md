@@ -43,7 +43,7 @@ dsh plugin --profile web add stillpoint
 Desktop 配置可将 `--profile web` 替换为 `--profile desktop`。若新发布的 npm 版本处于 24 小时冷却窗口或尚未同步，可直接从 GitHub Release 安装预打包包：
 
 ```sh
-dsh plugin --profile web add https://github.com/Lubin-Github/stillpoint/releases/download/v1.0.10/stillpoint-1.0.10.tgz
+dsh plugin --profile web add https://github.com/Lubin-Github/stillpoint/releases/download/v1.0.11/stillpoint-1.0.11.tgz
 ```
 
 安装应用后刷新界面，打开 **设置 → Stillpoint**，或从首次启动提示进入配置。SMTP 测试通过前，手动锁定与定时锁定均不可用。
@@ -65,7 +65,7 @@ npm ci --ignore-scripts
 npm pack --ignore-scripts
 ```
 
-通过当前 DSH 配置的插件管理器安装生成的 `stillpoint-1.0.10.tgz`（填写本地绝对路径），应用后刷新界面。打开 **设置 → Stillpoint**，或从首次启动提示进入配置。SMTP 测试通过前，手动锁定与定时锁定均不可用。
+通过当前 DSH 配置的插件管理器安装生成的 `stillpoint-1.0.11.tgz`（填写本地绝对路径），应用后刷新界面。打开 **设置 → Stillpoint**，或从首次启动提示进入配置。SMTP 测试通过前，手动锁定与定时锁定均不可用。
 
 ## 配置 SMTP 与解锁流程
 

@@ -1,6 +1,6 @@
 {
   "name": "stillpoint",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Activity-aware workspace lock and Argon2id + AES-256-GCM encrypted host-plugin vault for DeepSeek Harness (DSH), with graceful agent draining and email OTP unlock.",
   "license": "MIT",
   "author": "Lubin-Github",

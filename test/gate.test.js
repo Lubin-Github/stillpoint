@@ -151,6 +151,7 @@ test('SMTP setup, encrypted storage, scheduled lock, restart and OTP restore', a
   await gate.tick();
   assert.equal(gate.state().mode, 'locked');
   assert.equal(gate.state().smtp, null);
+  assert.equal(gate.state().managedCount, 0);
   assert.deepEqual(f.transitions, ['mount', 'unmount']);
   await gate.stop();
 

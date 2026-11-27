@@ -97,7 +97,7 @@ export class LockGate {
       smtpConfigured: !!this.snapshot,
       smtpVerified: !!this.snapshot?.verified && !this.snapshot.pendingSmtp,
       schedule: canConfigure ? this.snapshot?.schedule ?? DEFAULT_SCHEDULE : DEFAULT_SCHEDULE,
-      managedCount: this.snapshot?.vault.items.length ?? 0,
+      managedCount: canConfigure ? (this.snapshot?.vault.items.length ?? 0) : 0,
       managed: mode === 'unlocked' ? this.managed.list() : [],
     };
   }

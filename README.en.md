@@ -43,7 +43,7 @@ dsh plugin --profile web add stillpoint
 Replace `--profile web` with `--profile desktop` for the Desktop profile. If a newly published npm release is still within DSH's 24-hour release-age window or pending registry sync, you can install the prebuilt GitHub Release tarball directly:
 
 ```sh
-dsh plugin --profile web add https://github.com/Lubin-Github/stillpoint/releases/download/v1.0.10/stillpoint-1.0.10.tgz
+dsh plugin --profile web add https://github.com/Lubin-Github/stillpoint/releases/download/v1.0.11/stillpoint-1.0.11.tgz
 ```
 
 Refresh the interface after applying the installation. Open **Settings → Stillpoint** or follow the setup prompt. Manual and scheduled locking become available after the SMTP test succeeds.
@@ -70,7 +70,7 @@ npm ci --ignore-scripts
 npm pack --ignore-scripts
 ```
 
-In the DSH plugin manager, install the generated `stillpoint-1.0.10.tgz` using its absolute path. Refresh the interface after applying the installation. Open **Settings → Stillpoint** or follow the setup prompt. Manual and scheduled locking become available after the SMTP test succeeds.
+In the DSH plugin manager, install the generated `stillpoint-1.0.11.tgz` using its absolute path. Refresh the interface after applying the installation. Open **Settings → Stillpoint** or follow the setup prompt. Manual and scheduled locking become available after the SMTP test succeeds.
 
 ## Configure Email and Unlock
 
